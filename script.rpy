@@ -115,6 +115,7 @@ label round_1:
                 $ playerHand.append(value) 
                 $ playerTotal += value
                 $ cardAmount += 1
+                "You got a [value]"
             "Stay":
                     "Your total is [playerTotal]"
                     jump reveal_hand1
@@ -218,10 +219,11 @@ label round_2:
         "Would you like to..."
         menu:
             "Hit":
-                $ value = renpy.random.choice(deck)
-                $ playerHand2.append(value) 
-                $ playerTotal2 += value
+                $ value2 = renpy.random.choice(deck)
+                $ playerHand2.append(value2) 
+                $ playerTotal2 += value2
                 $ cardAmount2 += 1
+                "You got a [value2]"
             "Stay":
                     "Your total is [playerTotal2]"
                     jump reveal_hand2
@@ -323,10 +325,11 @@ label round_3:
         "Would you like to..."
         menu:
             "Hit":
-                $ value = renpy.random.choice(deck)
-                $ playerHand3.append(value) 
-                $ playerTotal3 += value
+                $ value3 = renpy.random.choice(deck)
+                $ playerHand3.append(value3) 
+                $ playerTotal3 += value3
                 $ cardAmount3 += 1
+                "You got a [value3]"
             "Stay":
                     "Your total is [playerTotal3]"
                     jump reveal_hand3
@@ -376,6 +379,108 @@ label reveal_hand3:
         jump transition1 
 
 label transition1:
-    pass
+    jump rps_game1
+
+
+label rps_game1:
+
+    scene Class
+    with fade
+
+    T talk "Alright class let's begin our second game, Rock, Paper, Scissors!"
+    T talk "I'm sure most of you are familiar with this game, so I will only briefly explain the rules"
+    T talk "In a best of 3, you challenge an opponent to a battle where you both display either rock, paper or scissors."
+    T talk "Rock beats scissors, scissors beats paper, and paper beats rock."
+    T talk "Like the last game I want to ensure that you all are using your probability mindset when playing, so you will bet in each round."
+    T talk "Without further ado, let's begin"
+
+    scene Class
+    with fade
+
+
+    $ rps = ['rock','paper','scissor']
+    $ beta = 0
+    $ count = 3
+    $ playerCount = 0
+    $ opponentCount = 0
+
+    T talk "Let's begin the first round, place your bet!"
+
+    menu:
+        "1":
+            $ beta +=1
+        "2":
+            $ beta +=2
+        "3":
+            $ beta +=3
+
+    T talk "I'll be your opponent for now. Let's go"
+
+    "You choose ..."
+
+    while count > 0:
+        if playerCount == 2:
+            jump rps_trans1
+        if opponentCount == 2:
+            jump rps_trans1
+        menu:
+            "Rock":
+                $ choice1 = renpy.random.choice(rps)
+                "Rock Paper Scissors shoot!"
+                "You choose Rock, while your opponent choose [choice1]."
+                if choice1 == 'scissor':
+                    $ playerCount += 1
+                    "Nice! You won this round"
+                    "The score is [playerCount] for you and [opponentCount] for your opponent"
+                    $ count -= 1
+                if choice1 == 'paper':
+                    $ opponentCount += 1
+                    "Oh no! You lost..."
+                    "The score is [playerCount] for you and [opponentCount] for your opponent"
+                    $ count -= 1
+                if choice1 == 'rock':
+                    "That's awkward... It's a tie."
+                    "The score is [playerCount] for you and [opponentCount] for your opponent"
+            "Paper":
+                $ choice2 = renpy.random.choice(rps)
+                "Rock Paper Scissors shoot!"
+                "You choose Paper, while your opponent choose [choice2]."
+                if choice2 == 'rock':
+                    $ playerCount += 1
+                    "Nice! You won this round"
+                    "The score is [playerCount] for you and [opponentCount] for your opponent"
+                    $ count -= 1
+                if choice2 == 'scissor':
+                    $ opponentCount += 1
+                    "Oh no! You lost..."
+                    "The score is [playerCount] for you and [opponentCount] for your opponent"
+                    $ count -= 1
+                if choice2 == 'paper':
+                    "That's awkward... It's a tie."
+                    "The score is [playerCount] for you and [opponentCount] for your opponent"
+            "Scissors":
+                $ choice3 = renpy.random.choice(rps)
+                "Rock Paper Scissors shoot!"
+                "You choose Scissors, while your opponent choose [choice3]."
+                if choice3 == 'paper':
+                    $ playerCount += 1
+                    "Nice! You won this round"
+                    "The score is [playerCount] for you and [opponentCount] for your opponent"
+                    $ count -= 1
+                if choice3 == 'rock':
+                    $ opponentCount += 1
+                    "Oh no! You lost..."
+                    "The score is [playerCount] for you and [opponentCount] for your opponent"
+                    $ count -= 1
+                if choice3 == 'scissor':
+                    "That's awkward... It's a tie."
+                    "The score is [playerCount] for you and [opponentCount] for your opponent"
+
+    jump rps_trans1     
+
+label rps_trans1:
+    "done"
+
+    #while loop?
 
     return
